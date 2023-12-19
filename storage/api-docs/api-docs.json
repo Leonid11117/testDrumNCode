@@ -1,0 +1,534 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Authorization",
+                "operationId": "2e9c317eea06b322356cd346eb0e29fb",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthLoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ViewAuthResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registration",
+                "operationId": "7d8c5938c0f8c4cee857ce8e9a12d028",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthRegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ViewAuthResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Task list",
+                "operationId": "f129f6441c7259cb8d8c5981d8eb43c1",
+                "parameters": [
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "allowReserved": [
+                            "todo",
+                            "done"
+                        ],
+                        "example": "todo"
+                    },
+                    {
+                        "name": "filter[priority]",
+                        "in": "query",
+                        "allowReserved": [
+                            "todo",
+                            "done"
+                        ],
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TasksViewResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Create a new task",
+                "description": "Class CreateController",
+                "operationId": "createTask",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TasksRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/TasksViewResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "View task",
+                "operationId": "ceea203a60e2bad1877bbddbf1ba4822",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/TasksViewResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update task",
+                "operationId": "a1f7fdc08e44fa50fe9ed51987309d00",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TasksRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/TasksViewResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Delete task",
+                "operationId": "ffb4e360088f3fcb852840bd3472efe1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "422": {
+                        "description": "Error validation"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthLoginRequest": {
+                "required": [
+                    "email",
+                    "password",
+                    "password_confirmation"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "Class LoginRequest",
+                        "type": "string",
+                        "format": "email",
+                        "example": "test@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "000000"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthRegisterRequest": {
+                "required": [
+                    "email",
+                    "password",
+                    "password_confirmation"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "Class RegisterRequest",
+                        "type": "string",
+                        "format": "email",
+                        "example": "test@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "000000"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "example": "000000"
+                    }
+                },
+                "type": "object"
+            },
+            "TasksRequest": {
+                "required": [
+                    "parent_task_id",
+                    "status",
+                    "priority",
+                    "title",
+                    "description"
+                ],
+                "properties": {
+                    "parent_task_id": {
+                        "description": "Class TaskRequest",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "format": "date",
+                        "enum": [
+                            "todo",
+                            "done"
+                        ]
+                    },
+                    "priority": {
+                        "type": "null|integer",
+                        "example": "null|1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "description": {
+                        "type": "strig",
+                        "example": "test"
+                    }
+                },
+                "type": "object"
+            },
+            "ViewAuthResource": {
+                "properties": {
+                    "token": {
+                        "description": "Class ViewAuthResource",
+                        "type": "string",
+                        "example": "1|Bjb2QGYzxKgqRFLbnHxeUkqR6drD7TpeF7Va3mgU"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/ViewAuthResource"
+                    }
+                },
+                "type": "object"
+            },
+            "IndexTaskResource": {
+                "properties": {
+                    "id": {
+                        "description": "Class IndexTaskResource",
+                        "type": "integer",
+                        "example": "234"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "parent_task_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "format": "date",
+                        "enum": [
+                            "todo",
+                            "done"
+                        ]
+                    },
+                    "priority": {
+                        "type": "null|integer",
+                        "example": "null|1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "description": {
+                        "type": "strig",
+                        "example": "test"
+                    },
+                    "completed_at": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2022-10-05"
+                    }
+                },
+                "type": "object"
+            },
+            "TasksViewResource": {
+                "properties": {
+                    "id": {
+                        "description": "Class ViewTaskResource",
+                        "type": "integer",
+                        "example": "234"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "parent_task_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "todo",
+                            "done"
+                        ],
+                        "example": "todo"
+                    },
+                    "priority": {
+                        "type": "integer|null",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-12-19T19:47:23.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-12-19T19:47:23.000000Z"
+                    },
+                    "completed_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-12-19T19:47:23.000000Z"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
